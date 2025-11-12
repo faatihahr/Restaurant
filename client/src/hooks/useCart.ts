@@ -4,7 +4,7 @@ import type { CartItem, Product } from '../types';
 export const useCart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  // Load cart from localStorage on mount
+  // Load cart
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
@@ -16,7 +16,7 @@ export const useCart = () => {
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);

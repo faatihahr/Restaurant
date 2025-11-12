@@ -1,9 +1,7 @@
-/* Modern Vintage Styles - Enhanced */
-
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Primary Vintage Colors */
+  /* Primary Colors */
   --vintage-brown: #5D4037;
   --vintage-sepia: #8D6E63;
   --vintage-gold: #D4AF37;
@@ -13,19 +11,13 @@
   --vintage-ivory: #FFFFF0;
   --vintage-rust: #B85042;
   --vintage-olive: #6B705C;
-  
-  /* Text Colors */
   --text-primary: #3E2723;
   --text-secondary: #6D4C41;
   --text-muted: #8D6E63;
-  
-  /* Shadows */
   --shadow-light: rgba(93, 64, 55, 0.08);
   --shadow-medium: rgba(93, 64, 55, 0.15);
   --shadow-heavy: rgba(93, 64, 55, 0.25);
   --shadow-gold: rgba(212, 175, 55, 0.2);
-  
-  /* Borders */
   --border-light: rgba(93, 64, 55, 0.2);
   --border-medium: rgba(93, 64, 55, 0.4);
 }
@@ -47,7 +39,7 @@ body {
   min-height: 100vh;
 }
 
-/* Decorative background pattern */
+/* Background */
 body::before {
   content: '';
   position: fixed;
@@ -87,7 +79,7 @@ body::before {
   position: relative;
 }
 
-/* Typography */
+/* Text */
 .text-5xl {
   font-family: 'Playfair Display', serif;
   font-size: 4rem;
@@ -236,7 +228,7 @@ body::before {
   justify-content: center;
 }
 
-/* Enhanced Card Styles */
+/* Card */
 .card {
   border-radius: 16px;
   padding: 0;
@@ -253,8 +245,6 @@ body::before {
   display: flex;
   flex-direction: column;
 }
-
-/* Decorative corner elements */
 .card::before,
 .card::after {
   content: '';
@@ -294,7 +284,7 @@ body::before {
   opacity: 0.6;
 }
 
-/* Search Bar Enhancement */
+/* Search Bar */
 .search-bar {
   max-width: 700px;
   margin: 2.5rem auto;
@@ -480,7 +470,7 @@ body::before {
   border: 1px solid var(--vintage-dark-gold);
 }
 
-/* Enhanced Button Styles */
+/* Button */
 .btn-vintage {
   background: linear-gradient(135deg, var(--vintage-gold) 0%, var(--vintage-dark-gold) 100%);
   color: var(--text-primary);
@@ -578,7 +568,7 @@ body::before {
   margin-left: 2rem;
 }
 
-/* Enhanced Navbar */
+/* Navbar */
 .navbar-button {
   font-family: 'Playfair Display', serif;
   font-size: 1.25rem;
@@ -627,7 +617,7 @@ body::before {
   transform: translateY(-2px);
 }
 
-/* Title Decoration */
+/* Title */
 h1.text-5xl {
   position: relative;
   padding-bottom: 1rem;
@@ -645,7 +635,7 @@ h1.text-5xl::after {
   border-radius: 2px;
 }
 
-/* Cart Summary Enhancement */
+/* Cart Summary */
 .card.mb-10 {
   background: linear-gradient(135deg, var(--vintage-ivory) 0%, var(--vintage-cream) 100%);
   padding: 1.5rem 2rem;
