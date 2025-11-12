@@ -46,52 +46,57 @@ const ProductCard: React.FC<ProductCardProps> = ({
     : '/placeholder-image.png';
 
   return (
-    <div className="card-vintage hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
-      <img
-        src={imageUrl}
-        alt={product.name}
-        className="w-full h-48 object-cover rounded-t-lg border-b-2 border-vintage-gold"
-      />
-      <div className="p-4">
-        <h3 className="text-xl font-serif font-bold text-vintage-brown mb-2">{product.name}</h3>
-        <p className="text-vintage-sepia text-sm mb-2 line-clamp-2">{product.description}</p>
-        <p className="text-lg font-bold text-vintage-gold mb-2">${product.price.toFixed(2)}</p>
-        <p className="text-xs text-vintage-brown bg-vintage-parchment px-2 py-1 rounded-full inline-block mb-4">
+    <div className="card">
+      <img src={imageUrl}alt={product.name}className="image"/>
+      <div style={{ padding: '0 1rem', textAlign: 'right', marginBottom: '0.5rem' }}>
+        <p className="category" style={{ display: 'inline-block' }}>
           {product.category.name}
         </p>
-
-        {isInCart ? (
-          <div className="flex items-center justify-between gap-2">
+      </div>
+      <div className="content">
+        <h2>{product.name}</h2>
+        <p>{product.description}</p>
+        <p className="price">${product.price.toFixed(2)}</p>
+      </div>
+      <div style={{ marginTop: 'auto', padding: '1rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+          {isInCart ? (
+            <>
+              <button
+                onClick={handleDecreaseQuantity}
+                className="btn-vintage"
+                style={{ width: '2rem', height: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.125rem', fontWeight: 'bold' }}
+              >
+                -
+              </button>
+              <span style={{ color: '#8B4513', fontWeight: 'bold', fontSize: '1.125rem', minWidth: '2rem', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {cartItem.quantity}
+              </span>
+              <button
+                onClick={handleIncreaseQuantity}
+                className="btn-vintage"
+                style={{ width: '2rem', height: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.125rem', fontWeight: 'bold' }}
+              >
+                +
+              </button>
+              <button
+                onClick={handleRemoveFromCart}
+                style={{ backgroundColor: '#dc2626', color: 'white', padding: '0.25rem 0.75rem', borderRadius: '0.5rem', fontSize: '0.875rem', fontWeight: '500', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b91c1c'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#dc2626'}
+              >
+                Remove
+              </button>
+            </>
+          ) : (
             <button
-              onClick={handleDecreaseQuantity}
-              className="btn-vintage w-8 h-8 flex items-center justify-center text-lg font-bold"
+              onClick={handleAddToCart}
+              className="btn-vintage"
             >
-              -
+              Add to Cart
             </button>
-            <span className="text-vintage-brown font-bold text-lg min-w-[2rem] text-center">
-              {cartItem.quantity}
-            </span>
-            <button
-              onClick={handleIncreaseQuantity}
-              className="btn-vintage w-8 h-8 flex items-center justify-center text-lg font-bold"
-            >
-              +
-            </button>
-            <button
-              onClick={handleRemoveFromCart}
-              className="bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition-colors duration-200 text-sm font-medium"
-            >
-              Remove
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={handleAddToCart}
-            className="btn-vintage w-full text-center"
-          >
-            Add to Cart
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

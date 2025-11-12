@@ -20,8 +20,9 @@ api.interceptors.request.use((config) => {
 });
 
 export const productApi = {
-  getProducts: async (): Promise<Product[]> => {
-    const response = await api.get('/products');
+  getProducts: async (search?: string): Promise<Product[]> => {
+    const params = search ? { search } : {};
+    const response = await api.get('/products', { params });
     return response.data.data;
   },
 

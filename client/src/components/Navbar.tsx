@@ -13,19 +13,17 @@ const Navbar: React.FC<NavbarProps> = ({ selectedCategory, onCategoryChange }) =
   ];
 
   return (
-    <nav className="navbar-vintage mb-8">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-center space-x-8">
-          {categories.map(category => (
-            <button
-              key={category.key}
-              onClick={() => onCategoryChange(category.key)}
-              className={`navbar-btn ${selectedCategory === category.key ? 'active' : ''}`}
-            >
-              {category.label}
-            </button>
-          ))}
-        </div>
+    <nav className="container">
+      <div className="display-flex justify-center space-x-8">
+        {categories.map(category => (
+          <button
+            key={category.key}
+            onClick={() => onCategoryChange(category.key)}
+            className={`navbar-button ${selectedCategory === category.key ? 'selected' : ''}`}
+          >
+            {category.label}
+          </button>
+        ))}
       </div>
     </nav>
   );

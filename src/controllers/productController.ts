@@ -1,16 +1,21 @@
 import type { Request, Response } from 'express';
-import fileUpload from 'express-fileupload';
 import path from 'path';
 import prisma from '../lib/prisma.js';
 import { saveUploadedFile, validateImageFile, getUploadedFiles } from '../lib/upload.js';
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const { category, sort, limit, offset } = req.query;
+    const { category, sort, limit, offset, search } = req.query;
 
     const where: any = {};
     if (category) {
       where.categoryId = parseInt(category as string);
+    }
+    if (search) {
+      where.name = {
+        contains: search as string,
+        mode: 'insensitive'
+      };
     }
 
     const orderBy: any = {};
@@ -85,7 +90,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
       // File is already saved by multer, just return the path
       const relativePath = path.relative(path.join(process.cwd(), 'src'), file.path);
-      imageUrl = `/${relativePath.replace(/\\/g, '/')}`;
+      imageUrl = `/src/${relativePath.replace(/\\/g, '/')}`;
     } else {
       return res.status(400).json({ message: 'Product image is required' });
     }
@@ -136,7 +141,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
       // File is already saved by multer, just return the path
       const relativePath = path.relative(path.join(process.cwd(), 'src'), file.path);
-      imageUrl = `/${relativePath.replace(/\\/g, '/')}`;
+      imageUrl = `/src/${relativePath.replace(/\\/g, '/')}`;
     }
 
     const updateData: any = {
