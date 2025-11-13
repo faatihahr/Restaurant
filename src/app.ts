@@ -60,6 +60,27 @@ app.use('/src/uploads', express.static(path.join(process.cwd(), 'src', 'uploads'
   dotfiles: 'deny'
 }));
 
+// Also serve uploads via API path for frontend access
+app.use('/api/uploads', express.static(path.join(process.cwd(), 'src', 'uploads'), {
+  setHeaders: (res, path) => {
+    // Security headers for uploaded files
+    res.set('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+    res.set('X-Content-Type-Options', 'nosniff');
+    res.set('X-Frame-Options', 'DENY');
+    res.set('X-XSS-Protection', '1; mode=block');
+
+    // Only allow specific file types
+    if (path.endsWith('.jpg') || path.endsWith('.jpeg') || path.endsWith('.png') ||
+        path.endsWith('.gif') || path.endsWith('.webp')) {
+      res.set('Content-Type', `image/${path.split('.').pop()}`);
+    }
+  },
+  // mencegah listing direktori
+  index: false,
+  // mencegah akses ke dotfiles
+  dotfiles: 'deny'
+}));
+
 // Rute umum
 app.use('/api/users', userRoutes);
 

@@ -16,14 +16,19 @@ async function fixImagePaths() {
       if (product.image) {
         let newImage = product.image;
 
-        if (newImage.startsWith('src/uploads/')) {
-          newImage = '/' + newImage;
+        // Convert /src/uploads/ paths to /api/uploads/
+        if (newImage.startsWith('/src/uploads/')) {
+          newImage = newImage.replace('/src/uploads/', '/api/uploads/');
+        }
+        // Handle other variations
+        else if (newImage.startsWith('src/uploads/')) {
+          newImage = '/api/' + newImage;
         }
         else if (newImage.startsWith('/uploads/products/')) {
-          newImage = '/src' + newImage;
+          newImage = '/api' + newImage;
         }
         else if (newImage.startsWith('uploads/products/')) {
-          newImage = '/src/' + newImage;
+          newImage = '/api/' + newImage;
         }
 
         if (newImage !== product.image) {

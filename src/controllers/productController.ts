@@ -90,7 +90,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
       // File is already saved by multer, just return the path
       const relativePath = path.relative(path.join(process.cwd(), 'src'), file.path);
-      imageUrl = `/src/${relativePath.replace(/\\/g, '/')}`;
+      imageUrl = `/api/${relativePath.replace(/\\/g, '/')}`;
     } else {
       return res.status(400).json({ message: 'Product image is required' });
     }
@@ -141,7 +141,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
       // File is already saved by multer, just return the path
       const relativePath = path.relative(path.join(process.cwd(), 'src'), file.path);
-      imageUrl = `/src/${relativePath.replace(/\\/g, '/')}`;
+      imageUrl = `/api/${relativePath.replace(/\\/g, '/')}`;
     }
 
     const updateData: any = {
