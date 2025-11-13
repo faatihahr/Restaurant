@@ -1,6 +1,48 @@
-# Marketplace API
+# Restaurant Order System
 
-A comprehensive REST API for managing a marketplace system, built with Express.js, TypeScript, and Prisma ORM. This API supports user authentication, product management, order processing, inventory tracking, and more, with PostgreSQL as the database backend.
+A full-stack application for managing restaurant orders, built with modern web technologies. The system includes a REST API backend (Express.js, TypeScript, Prisma ORM) and a React frontend with Tailwind CSS and Shadcn UI components. Supports user authentication, product management, order processing, inventory tracking, and table-based ordering.
+
+## Backend API
+
+A comprehensive REST API for managing the restaurant system, built with Express.js, TypeScript, and Prisma ORM. This API supports user authentication, product management, order processing, inventory tracking, and more, with PostgreSQL as the database backend.
+
+## Frontend
+
+A modern React application built with Vite, featuring:
+- **Tailwind CSS**: Utility-first CSS framework for rapid styling
+- **Shadcn UI**: Accessible UI components built on Radix UI and Tailwind
+- **React Router**: Client-side routing with nested and dynamic routes
+- **TypeScript**: Type-safe development
+- **Context API**: State management for cart functionality
+
+### Frontend Technologies
+- **React 18** - UI library
+- **Vite** - Build tool and dev server
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Utility-first CSS
+- **Shadcn UI** - Component library
+- **React Router DOM** - Routing
+- **Axios** - HTTP client
+
+### Frontend Installation
+
+1. Navigate to the client directory:
+   ```bash
+   cd client
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+The frontend will start on `http://localhost:5173` (default Vite port).
+
 
 ## Features
 
