@@ -1,6 +1,7 @@
 export interface OrderItem {
     productId: number;
     quantity: number;
+    name: string;
 }
 export interface Order {
     id: number;
