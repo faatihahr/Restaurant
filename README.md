@@ -26,9 +26,9 @@ A modern React application built with Vite, featuring:
 
 ### Frontend Installation
 
-1. Navigate to the client directory:
+1. Navigate to the frontend client directory:
    ```bash
-   cd client
+   cd frontend/client
    ```
 
 2. Install dependencies:
@@ -70,14 +70,17 @@ The frontend will start on `http://localhost:5173` (default Vite port).
 
 ## Installation
 
+### Backend Setup
+
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd marketplace
+   cd Simple-Rest-API-RestaurantOrder-day6
    ```
 
-2. Install dependencies:
+2. Navigate to the backend directory and install dependencies:
    ```bash
+   cd backend
    npm install
    ```
 
@@ -85,8 +88,9 @@ The frontend will start on `http://localhost:5173` (default Vite port).
    - Create a PostgreSQL database
    - Copy `.env.example` to `.env` and configure your database URL:
      ```
-     DATABASE_URL="postgresql://username:password@localhost:5432/marketplace"
+     DATABASE_URL="postgresql://username:password@localhost:5432/restaurant_order"
      JWT_SECRET="your-secret-key-here"
+     PORT=3000
      ```
 
 4. Run database migrations:
@@ -99,12 +103,31 @@ The frontend will start on `http://localhost:5173` (default Vite port).
    npx prisma db seed
    ```
 
-6. Start the development server:
+6. Start the backend development server:
    ```bash
    npm run dev
    ```
 
-The server will start on `http://localhost:3000`.
+The backend server will start on `http://localhost:3000`.
+
+### Frontend Setup
+
+1. Open a new terminal and navigate to the frontend client directory:
+   ```bash
+   cd frontend/client
+   ```
+
+2. Install frontend dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+The frontend will start on `http://localhost:5173` (default Vite port).
 
 ## Usage
 
@@ -471,51 +494,107 @@ The API comes pre-seeded with sample data:
 ## Project Structure
 
 ```
-marketplace/
-├── prisma/
-│   ├── schema.prisma       # Database schema
-│   ├── seed.ts            # Database seeding script
-│   └── migrations/        # Database migrations
-├── src/
-│   ├── app.ts             # Main application setup
-│   ├── controllers/
-│   │   ├── authController.ts     # Authentication logic
-│   │   ├── userController.ts     # User management
-│   │   ├── productController.ts  # Product CRUD
-│   │   ├── orderController.ts    # Order management
-│   │   └── supplierController.ts # Supplier & stock management
-│   ├── lib/
-│   │   ├── prisma.ts      # Prisma client instance
-│   │   └── validation.ts  # Validation utilities
-│   ├── middleware/
-│   │   ├── auth-middleware.ts        # Authentication middleware
-│   │   └── handlingerror-middleware.ts # Error handling
-│   ├── models/
-│   │   ├── Order.ts       # Order-related interfaces
-│   │   └── Product.ts     # Product-related interfaces
-│   └── routes/
-│       ├── userRoutes.ts      # User API routes
-│       ├── productRoutes.ts   # Product API routes
-│       ├── orderRoutes.ts     # Order API routes
-│       └── supplierRoutes.ts  # Supplier API routes
-├── package.json
-├── tsconfig.json
-└── README.md
+Simple-Rest-API-RestaurantOrder-day6/
+├── backend/
+│   ├── prisma/
+│   │   ├── schema.prisma       # Database schema
+│   │   ├── seed.ts            # Database seeding script
+│   │   └── migrations/        # Database migrations
+│   ├── src/
+│   │   ├── app.ts             # Main application setup
+│   │   ├── controllers/
+│   │   │   ├── authController.ts     # Authentication logic
+│   │   │   ├── userController.ts     # User management
+│   │   │   ├── productController.ts  # Product CRUD
+│   │   │   ├── orderController.ts    # Order management
+│   │   │   └── supplierController.ts # Supplier & stock management
+│   │   ├── lib/
+│   │   │   ├── prisma.ts      # Prisma client instance
+│   │   │   ├── upload.ts      # File upload utilities
+│   │   │   └── validation.ts  # Validation utilities
+│   │   ├── middleware/
+│   │   │   ├── auth-middleware.ts        # Authentication middleware
+│   │   │   ├── cors-middleware.ts        # CORS middleware
+│   │   │   ├── handlingerror-middleware.ts # Error handling
+│   │   │   ├── rate-limit-middleware.ts # Rate limiting
+│   │   │   └── upload-middleware.ts      # File upload middleware
+│   │   ├── models/
+│   │   │   ├── Order.ts       # Order-related interfaces
+│   │   │   └── Product.ts     # Product-related interfaces
+│   │   ├── routes/
+│   │   │   ├── userRoutes.ts      # User API routes
+│   │   │   ├── productRoutes.ts   # Product API routes
+│   │   │   ├── orderRoutes.ts     # Order API routes
+│   │   │   └── supplierRoutes.ts  # Supplier API routes
+│   │   └── uploads/           # File uploads directory
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── .gitignore
+├── frontend/
+│   └── client/
+│       ├── public/
+│       ├── src/
+│       │   ├── api.ts          # API client configuration
+│       │   ├── App.tsx         # Main React app component
+│       │   ├── main.tsx        # React app entry point
+│       │   ├── index.css       # Global styles
+│       │   ├── types.ts        # TypeScript type definitions
+│       │   ├── assets/         # Static assets
+│       │   ├── components/     # Reusable UI components
+│       │   │   ├── ui/         # Shadcn UI components
+│       │   │   ├── Layout.tsx
+│       │   │   ├── Navbar.tsx
+│       │   │   ├── ProductCard.tsx
+│       │   │   ├── SearchBar.tsx
+│       │   │   └── FloatingCartPopup.tsx
+│       │   ├── contexts/       # React contexts for state management
+│       │   │   ├── AuthContext.tsx
+│       │   │   ├── CartContext.tsx
+│       │   │   └── ThemeContext.tsx
+│       │   ├── hooks/          # Custom React hooks
+│       │   │   └── useCart.ts
+│       │   ├── lib/            # Utility functions
+│       │   │   └── utils.ts
+│       │   └── pages/          # Page components
+│       │       ├── ProductsPage.tsx
+│       │       ├── ProductDetailPage.tsx
+│       │       ├── CartDetailPage.tsx
+│       │       ├── SignInPage.tsx
+│       │       ├── SignUpPage.tsx
+│       │       └── ProfilePage.tsx
+│       ├── package.json
+│       ├── tsconfig.json
+│       ├── vite.config.ts
+│       ├── index.html
+│       └── .gitignore
+├── README.md
+├── SECURITY.md
+└── .gitignore
 ```
 
 ## Development
+
+### Backend Development Commands
+Run these commands from the `backend/` directory:
 
 - **Build**: `npm run build` - Compiles TypeScript to JavaScript
 - **Start**: `npm start` - Runs the compiled JavaScript
 - **Dev**: `npm run dev` - Runs with hot reload using tsx
 - **Database**: `npx prisma studio` - Opens Prisma Studio for database management
 
+### Frontend Development Commands
+Run these commands from the `frontend/client/` directory:
+
+- **Dev**: `npm run dev` - Starts the Vite development server
+- **Build**: `npm run build` - Builds the project for production
+- **Preview**: `npm run preview` - Previews the production build locally
+
 ## Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the `backend/` directory:
 
 ```
-DATABASE_URL="postgresql://username:password@localhost:5432/marketplace"
+DATABASE_URL="postgresql://username:password@localhost:5432/restaurant_order"
 JWT_SECRET="your-secret-key-here"
 PORT=3000
 ```
