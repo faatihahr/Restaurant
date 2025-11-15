@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
 import ProductsPage from './pages/ProductsPage';
 import CartDetailPage from './pages/CartDetailPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -8,30 +9,15 @@ import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
 import FloatingCartPopup from './components/FloatingCartPopup';
-import { useAuth } from './contexts/AuthContext';
+import { useDebounce } from './hooks/useDebounce';
 
 function App() {
-  const { isAuthenticated } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>('');
-
-  // Debouncing
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchQuery]);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-  };
-
-  // Protected Route component
-  const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-    return isAuthenticated ? <>{children}</> : <Navigate to="/sign-in" replace />;
   };
 
   return (

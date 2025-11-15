@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import Navbar from '../components/Navbar';
 import SearchBar from '../components/SearchBar';
-import { productApi } from '../api';
 import { useCart } from '../contexts/CartContext';
+import { useProducts } from '../hooks/useProducts';
 import type { Product } from '../types';
 
 interface ProductsPageProps {
@@ -23,48 +23,8 @@ const ProductsPage: React.FC<ProductsPageProps> = ({
   onSearchChange
 }) => {
   const navigate = useNavigate();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { products, loading, error } = useProducts(selectedCategory, debouncedSearchQuery);
   const { cartItems, addToCart, removeFromCart, updateQuantity, getTotalItems, getTotalPrice } = useCart();
-
-  useEffect(() => {
-    fetchProducts();
-  }, [selectedCategory, debouncedSearchQuery]);
-
-  // Fetch products function
-  const fetchProducts = async () => {
-  try {
-    setLoading(true);
-    const startTime = Date.now();
-
-    let data: Product[];
-    if (selectedCategory === 'all') {
-      data = await productApi.getProducts(debouncedSearchQuery || undefined);
-    } else {
-      const categoryData = await productApi.getProductsByCategory(selectedCategory);
-      data = categoryData[selectedCategory === 'food' ? 'Food' : 'Beverages'] || [];
-
-      if (debouncedSearchQuery) {
-        data = data.filter(product =>
-          product.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
-        );
-      }
-    }
-    const elapsed = Date.now() - startTime;
-    const remaining = 800 - elapsed;
-    if (remaining > 0) {
-      await new Promise(resolve => setTimeout(resolve, remaining));
-    }
-
-    setProducts(data);
-  } catch (err) {
-    setError('Failed to fetch products');
-    console.error('Error fetching products:', err);
-  } finally {
-    setLoading(false);
-  }
-  };
 
   const handleCartClick = () => {
     navigate('/cart-detail');

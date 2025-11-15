@@ -75,10 +75,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setError(null);
 
     try {
+      const startTime = Date.now();
       const response = await axios.post('http://localhost:3000/api/users/login', {
         email,
         password
       });
+      const elapsed = Date.now() - startTime;
+      const remaining = 800 - elapsed;
+      if (remaining > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+      }
 
       const { token: newToken, user: userData } = response.data;
 
@@ -98,12 +104,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setError(null);
 
     try {
+      const startTime = Date.now();
       const response = await axios.post('http://localhost:3000/api/users/register', {
         name,
         email,
         password,
         role
       });
+      const elapsed = Date.now() - startTime;
+      const remaining = 800 - elapsed;
+      if (remaining > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remaining));
+      }
 
       const { token: newToken, user: userData } = response.data;
 

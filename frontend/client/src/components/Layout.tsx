@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Loader2 } from 'lucide-react';
 import { Button } from './ui/button';
@@ -6,6 +6,7 @@ import { ThemeToggle } from './ui/theme-toggle';
 import Navbar from './Navbar';
 import SearchBar from './SearchBar';
 import { useAuth } from '../contexts/AuthContext';
+import { useSignOut } from '../hooks/useSignOut';
 
 interface LayoutProps {
   selectedCategory: string;
@@ -24,20 +25,9 @@ const Layout: React.FC<LayoutProps> = ({
   children,
   showFilters = true
 }) => {
-  const { user, logout, isLoading } = useAuth();
-  const [isSigningOut, setIsSigningOut] = useState(false);
+  const { user, isLoading } = useAuth();
   const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    setIsSigningOut(true);
-
-    // Add a small delay for better UX
-    setTimeout(() => {
-      logout();
-      setIsSigningOut(false);
-      navigate('/');
-    }, 1500); // 1.5 second delay
-  };
+  const { isSigningOut, handleSignOut } = useSignOut();
 
   return (
     <div className="min-h-screen py-12">

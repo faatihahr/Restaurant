@@ -35,7 +35,7 @@ const FloatingCartPopup: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 animate-in fade-in slide-in-from-bottom-4 duration-300">
-      <Card className="p-4 min-w-[280px]">
+      <Card className="p-4 min-w-[280px] cursor-pointer" onClick={handleClick}>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="bg-primary rounded-full p-2">
@@ -51,10 +51,7 @@ const FloatingCartPopup: React.FC = () => {
               </p>
             </div>
           </div>
-          <Button
-            onClick={handleClick}
-            size="sm"
-          >
+          <Button size="sm">
             View Cart
           </Button>
         </div>

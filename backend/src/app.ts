@@ -6,6 +6,7 @@ import { publicRouter as publicProductRoutes, authenticatedRouter as authenticat
 import orderRoutes from './routes/orderRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import supplierRoutes from './routes/supplierRoutes.js';
+import cartRoutes from './routes/cartRoutes.js';
 import { errorHandler } from './middleware/handlingerror-middleware.js';
 import { authenticate } from './middleware/auth-middleware.js';
 import { uploadMiddleware } from './middleware/upload-middleware.js';
@@ -18,8 +19,8 @@ const PORT = process.env.PORT || 3000;
 // Session configuration
 app.use(session({
   secret: process.env.SESSION_SECRET || 'your-session-secret-key',
-  resave: false,
-  saveUninitialized: false,
+  resave: true,
+  saveUninitialized: true,
   cookie: {
     secure: false, // Set to true in production with HTTPS
     httpOnly: true,
@@ -83,6 +84,7 @@ app.use('/api/uploads', express.static(path.join(process.cwd(), 'src', 'uploads'
 
 // Rute umum
 app.use('/api/users', userRoutes);
+app.use('/api/carts', authenticate, cartRoutes);
 
 // Public product routes (no authentication)
 app.use('/api/products', publicProductRoutes);

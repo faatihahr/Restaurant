@@ -2,13 +2,14 @@ import React from 'react';
 import type { Product, CartItem } from '../types';
 import { Card, CardContent } from './ui/card';
 import { Button } from './ui/button';
+import { useCart } from '../contexts/CartContext';
 
 interface ProductCardProps {
   product: Product;
   cartItems: CartItem[];
-  onAddToCart: (product: Product) => void;
-  onRemoveFromCart: (productId: number) => void;
-  onUpdateQuantity: (productId: number, quantity: number) => void;
+  onAddToCart: (product: Product) => Promise<void>;
+  onRemoveFromCart: (productId: number) => Promise<void>;
+  onUpdateQuantity: (productId: number, quantity: number) => Promise<void>;
   onClick?: () => void;
 }
 
@@ -20,32 +21,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onUpdateQuantity,
   onClick,
 }) => {
+  const { isLoading } = useCart();
   const cartItem = cartItems.find(item => item.product.id === product.id);
   const isInCart = !!cartItem;
 
-  const handleAddToCart = (event: React.MouseEvent) => {
+  const handleAddToCart = async (event: React.MouseEvent) => {
     event.stopPropagation();
-    onAddToCart(product);
+    await onAddToCart(product);
   };
 
-  const handleRemoveFromCart = (event: React.MouseEvent) => {
+  const handleRemoveFromCart = async (event: React.MouseEvent) => {
     event.stopPropagation();
-    onRemoveFromCart(product.id);
+    await onRemoveFromCart(product.id);
   };
 
-  const handleIncreaseQuantity = (event: React.MouseEvent) => {
+  const handleIncreaseQuantity = async (event: React.MouseEvent) => {
     event.stopPropagation();
     if (cartItem) {
-      onUpdateQuantity(product.id, cartItem.quantity + 1);
+      await onUpdateQuantity(product.id, cartItem.quantity + 1);
     }
   };
 
-  const handleDecreaseQuantity = (event: React.MouseEvent) => {
+  const handleDecreaseQuantity = async (event: React.MouseEvent) => {
     event.stopPropagation();
     if (cartItem && cartItem.quantity > 1) {
-      onUpdateQuantity(product.id, cartItem.quantity - 1);
+      await onUpdateQuantity(product.id, cartItem.quantity - 1);
     } else {
-      handleRemoveFromCart(event);
+      await handleRemoveFromCart(event);
     }
   };
 
@@ -86,7 +88,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   onClick={handleDecreaseQuantity}
                   variant="outline"
                   size="icon"
-                  className="w-8 h-8 sm:w-7 sm:h-7 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm"
+                  disabled={isLoading}
+                  className="w-8 h-8 sm:w-7 sm:h-7 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm disabled:opacity-50"
                 >
                   -
                 </Button>
@@ -97,7 +100,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   onClick={handleIncreaseQuantity}
                   variant="outline"
                   size="icon"
-                  className="w-8 h-8 sm:w-7 sm:h-7 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm"
+                  disabled={isLoading}
+                  className="w-8 h-8 sm:w-7 sm:h-7 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm disabled:opacity-50"
                 >
                   +
                 </Button>
@@ -106,7 +110,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 onClick={handleRemoveFromCart}
                 variant="destructive"
                 size="sm"
-                className="w-full sm:w-auto"
+                disabled={isLoading}
+                className="w-full sm:w-auto disabled:opacity-50"
               >
                 Remove
               </Button>
@@ -114,7 +119,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
           ) : (
             <Button
               onClick={handleAddToCart}
-              className="w-full sm:w-auto px-6 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              disabled={isLoading}
+              className="w-full sm:w-auto px-6 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 disabled:opacity-50"
             >
               Add to Cart
             </Button>
